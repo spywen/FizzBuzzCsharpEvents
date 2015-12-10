@@ -29,18 +29,23 @@ namespace FizzBuzzCsharpEvents
             }
             else
             {
-                if (Other != null) Other(this, new IntegerEventArgs{Value = Total});
+                if (Other != null) Other(this, new EventArgs<int> { Value = Total });
             }
         }
 
         public event EventHandler<EventArgs> End;
         public event EventHandler<EventArgs> Fizz;
         public event EventHandler<EventArgs> Buzz;
-        public event EventHandler<IntegerEventArgs> Other;
+        public event EventHandler<EventArgs<int>> Other;
     }
 
-    public class IntegerEventArgs : EventArgs
+    /// <summary>
+    /// Generic class : which enable us to create eventargs with single value but with different kind of type
+    /// One useless restriction here (just FYI) : constraint applied on generic type => should be comparable
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class EventArgs<T> : EventArgs where T : IComparable<T>
     {
-        public int Value { get; set; }
+        public T Value { get; set; }
     }
 }
